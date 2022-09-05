@@ -34,6 +34,7 @@ class _FrenchWordGenderGuesserState extends State<FrenchWordGenderGuesser> {
       hintText = str;
       textController.text = "";
     });
+    str = str.toLowerCase();
     List<double> stringAsList = getStringAsList(str);
     int length = stringAsList.length;
     while (length < 72) {
