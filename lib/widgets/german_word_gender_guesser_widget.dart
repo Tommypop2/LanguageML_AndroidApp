@@ -13,6 +13,7 @@ class GermanWordGenderGuesser extends StatefulWidget {
 
 class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
   final TextEditingController textController = TextEditingController();
+  final FocusNode textFocusNode = FocusNode();
   String hintText = "Enter a word";
   List outputs = [];
   List outputGenders = [];
@@ -29,6 +30,7 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
   }
 
   void submitText(String str) async {
+    textFocusNode.requestFocus();
     if (str == "") str = hintText;
     setState(() {
       hintText = str;
@@ -73,6 +75,7 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
           width: MediaQuery.of(context).size.width,
           child: TextField(
             controller: textController,
+            focusNode: textFocusNode,
             onSubmitted: submitText,
             style: const TextStyle(
               color: Colors.red,
