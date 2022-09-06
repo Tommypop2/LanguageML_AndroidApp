@@ -43,20 +43,21 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
       stringAsList.add(0);
       length += 1;
     }
-    outputs = (await getOutputs(stringAsList))[0];
-    outputGenders = ["Masculine", "Feminine", "Neuter"];
+    final tempOutputs = (await getOutputs(stringAsList))[0];
+    final tempGenders = ["Masculine", "Feminine", "Neuter"];
+
     while (true) {
       int swaps = 0;
-      for (int i = 1; i < outputs.length; i++) {
-        final firstOutput = outputs[i - 1];
-        final secondOutput = outputs[i];
-        final firstGender = outputGenders[i - 1];
-        final secondGender = outputGenders[i];
+      for (int i = 1; i < tempOutputs.length; i++) {
+        final firstOutput = tempOutputs[i - 1];
+        final secondOutput = tempOutputs[i];
+        final firstGender = tempGenders[i - 1];
+        final secondGender = tempGenders[i];
         if (firstOutput < secondOutput) {
-          outputs[i] = firstOutput;
-          outputs[i - 1] = secondOutput;
-          outputGenders[i] = firstGender;
-          outputGenders[i - 1] = secondGender;
+          tempOutputs[i] = firstOutput;
+          tempOutputs[i - 1] = secondOutput;
+          tempGenders[i] = firstGender;
+          tempGenders[i - 1] = secondGender;
           swaps += 1;
         }
       }
@@ -64,6 +65,10 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
         break;
       }
     }
+    setState(() {
+      outputGenders = tempGenders;
+      outputs = tempOutputs;
+    });
   }
 
   @override
@@ -78,7 +83,7 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
             focusNode: textFocusNode,
             onSubmitted: submitText,
             style: const TextStyle(
-              color: Colors.red,
+              color: Colors.black,
             ),
             decoration: InputDecoration(
               hintText: hintText,
