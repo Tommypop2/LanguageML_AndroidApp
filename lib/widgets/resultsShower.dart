@@ -4,7 +4,9 @@ class ResultsShower extends StatefulWidget {
   final List orderedGenders;
   final List orderedOutputs;
   const ResultsShower(
-      {Key? key, required this.orderedGenders, required this.orderedOutputs})
+      {required Key key,
+      required this.orderedGenders,
+      required this.orderedOutputs})
       : super(key: key);
 
   @override

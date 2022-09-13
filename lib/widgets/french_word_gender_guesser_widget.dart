@@ -74,7 +74,11 @@ class _FrenchWordGenderGuesserState extends State<FrenchWordGenderGuesser> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ResultsShower(orderedGenders: outputGenders, orderedOutputs: outputs),
+        ResultsShower(
+          orderedGenders: outputGenders,
+          orderedOutputs: outputs,
+          key: UniqueKey(),
+        ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: TextField(

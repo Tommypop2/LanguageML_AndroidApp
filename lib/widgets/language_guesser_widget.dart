@@ -3,15 +3,14 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 import "package:word_gender_guessers_flutter_app/helper_functions.dart";
 import 'package:word_gender_guessers_flutter_app/widgets/resultsShower.dart';
 
-class GermanWordGenderGuesser extends StatefulWidget {
-  const GermanWordGenderGuesser({Key? key}) : super(key: key);
+class LanguageGuesser extends StatefulWidget {
+  const LanguageGuesser({Key? key}) : super(key: key);
 
   @override
-  State<GermanWordGenderGuesser> createState() =>
-      _GermanWordGenderGuesserState();
+  State<LanguageGuesser> createState() => _LanguageGuesserState();
 }
 
-class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
+class _LanguageGuesserState extends State<LanguageGuesser> {
   final TextEditingController textController = TextEditingController();
   final FocusNode textFocusNode = FocusNode();
   String hintText = "Enter a word";
@@ -19,7 +18,7 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
   List outputGenders = [];
   Future<List<dynamic>> getOutputs(List<double> input) async {
     final interpreter =
-        await Interpreter.fromAsset('germanGenderGuesserModel.tflite');
+        await Interpreter.fromAsset('languageGuesserModel.tflite');
     // var input = [];
     // for (int i = 0; i < 72; i++) {
     //   input.add(1.0);
@@ -44,8 +43,7 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
       length += 1;
     }
     final tempOutputs = (await getOutputs(stringAsList))[0];
-    final tempGenders = ["Masculine", "Feminine", "Neuter"];
-
+    final tempGenders = ["English", "French", "Spanish"];
     while (true) {
       int swaps = 0;
       for (int i = 1; i < tempOutputs.length; i++) {
@@ -76,15 +74,16 @@ class _GermanWordGenderGuesserState extends State<GermanWordGenderGuesser> {
     return Column(
       children: [
         ResultsShower(
-            key: UniqueKey(),
-            orderedGenders: outputGenders,
-            orderedOutputs: outputs),
+          orderedGenders: outputGenders,
+          orderedOutputs: outputs,
+          key: UniqueKey(),
+        ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: TextField(
             controller: textController,
-            focusNode: textFocusNode,
             onSubmitted: submitText,
+            focusNode: textFocusNode,
             style: const TextStyle(
               color: Colors.black,
             ),

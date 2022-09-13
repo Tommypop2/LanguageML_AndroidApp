@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/french_word_gender_guesser_widget.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/german_word_gender_guesser_widget.dart';
+import 'package:word_gender_guessers_flutter_app/widgets/language_guesser_widget.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/not_built_yet.dart';
 
 void main() {
@@ -50,16 +51,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  void onItemTapped(index) {
+  void onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    NotBuiltYet(),
-    GermanWordGenderGuesser(),
-    FrenchWordGenderGuesser(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    LanguageGuesser(
+      key: UniqueKey(),
+    ),
+    GermanWordGenderGuesser(
+      key: UniqueKey(),
+    ),
+    FrenchWordGenderGuesser(
+      key: UniqueKey(),
+    ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -79,7 +86,10 @@ class _MyHomePageState extends State<MyHomePage> {
           "French Gender Guesser"
         ][_selectedIndex]),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _widgetOptions,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
