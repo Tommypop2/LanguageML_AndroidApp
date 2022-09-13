@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/french_word_gender_guesser_widget.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/german_word_gender_guesser_widget.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/language_guesser_widget.dart';
-import 'package:word_gender_guessers_flutter_app/widgets/not_built_yet.dart';
 
 void main() {
   runApp(const MyApp());
@@ -80,11 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text([
-          "Language Guesser",
-          "German Gender Guesser",
-          "French Gender Guesser"
-        ][_selectedIndex]),
+        title: Text(["Languages", "German", "French"][_selectedIndex]),
       ),
       body: IndexedStack(
         index: _selectedIndex,
@@ -94,15 +89,15 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
-            label: "Language Guesser",
+            label: "Languages",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
-            label: "German Gender Guesser",
+            label: "German",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.language),
-            label: "French Gender Guesser",
+            label: "French",
           ),
         ],
         currentIndex: _selectedIndex,
