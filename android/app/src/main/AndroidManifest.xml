@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.word_gender_guessers_flutter_app">
+    package="com.thomasbeer.word_gender_guessers_flutter_app">
    <application
-        android:label="word_gender_guessers_flutter_app"
+        android:label="Cool Word Gender Guesser"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
