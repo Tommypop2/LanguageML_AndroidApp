@@ -24,7 +24,6 @@ class _ResultsShowerState extends State<ResultsShower> {
     // if (coolData.isEmpty) {
     //   coolData = {"NoData": 100};
     // }
-    print(MediaQuery.of(context).size.width);
     return Expanded(
       child: Container(
         alignment: Alignment.center,

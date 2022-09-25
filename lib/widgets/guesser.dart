@@ -56,6 +56,7 @@ class _GuesserState extends State<Guesser> {
 
   void submitText(String str, {bool requestFocus = true}) async {
     if (requestFocus) textFocusNode.requestFocus();
+    str = str.replaceAll(" ", "");
     if (str == "") {
       setState(() {
         hintText = "Enter a word";
