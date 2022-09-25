@@ -3,22 +3,48 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 import "package:word_gender_guessers_flutter_app/helper_functions.dart";
 import 'package:word_gender_guessers_flutter_app/widgets/resultsShower.dart';
 
-class LanguageGuesser extends StatefulWidget {
-  const LanguageGuesser({Key? key}) : super(key: key);
+import '../storage/storagehandler.dart';
+
+class Guesser extends StatefulWidget {
+  final String language;
+
+  final List<String> outputs;
+
+  final String modelpath;
+
+  const Guesser(
+      {Key? key,
+      required this.language,
+      required this.outputs,
+      required this.modelpath})
+      : super(key: key);
 
   @override
-  State<LanguageGuesser> createState() => _LanguageGuesserState();
+  State<Guesser> createState() => _GuesserState();
 }
 
-class _LanguageGuesserState extends State<LanguageGuesser> {
+class _GuesserState extends State<Guesser> {
   final TextEditingController textController = TextEditingController();
   final FocusNode textFocusNode = FocusNode();
   String hintText = "Enter a word";
   List outputs = [];
   List outputGenders = [];
+  Future<void> onStart() async {
+    String data = await getData(widget.language);
+    submitText(data, requestFocus: false);
+    setState(() {
+      hintText = data == "" ? "Enter a word" : data;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onStart();
+  }
+
   Future<List<dynamic>> getOutputs(List<double> input) async {
-    final interpreter =
-        await Interpreter.fromAsset('languageGuesserModel.tflite');
+    final interpreter = await Interpreter.fromAsset(widget.modelpath);
     // var input = [];
     // for (int i = 0; i < 72; i++) {
     //   input.add(1.0);
@@ -28,9 +54,15 @@ class _LanguageGuesserState extends State<LanguageGuesser> {
     return output;
   }
 
-  void submitText(String str) async {
-    textFocusNode.requestFocus();
-    if (str == "") str = hintText;
+  void submitText(String str, {bool requestFocus = true}) async {
+    if (requestFocus) textFocusNode.requestFocus();
+    if (str == "") {
+      setState(() {
+        hintText = "Enter a word";
+      });
+      return;
+    }
+    setStr(widget.language, str);
     setState(() {
       hintText = str;
       textController.text = "";
@@ -43,7 +75,8 @@ class _LanguageGuesserState extends State<LanguageGuesser> {
       length += 1;
     }
     final tempOutputs = (await getOutputs(stringAsList))[0];
-    final tempGenders = ["English", "French", "Spanish"];
+    final tempGenders = List<String>.from(widget.outputs);
+
     while (true) {
       int swaps = 0;
       for (int i = 1; i < tempOutputs.length; i++) {
@@ -74,16 +107,16 @@ class _LanguageGuesserState extends State<LanguageGuesser> {
     return Column(
       children: [
         ResultsShower(
+          key: UniqueKey(),
           orderedGenders: outputGenders,
           orderedOutputs: outputs,
-          key: UniqueKey(),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: TextField(
             controller: textController,
-            onSubmitted: submitText,
             focusNode: textFocusNode,
+            onSubmitted: submitText,
             style: const TextStyle(
               color: Colors.black,
             ),

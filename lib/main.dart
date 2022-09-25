@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:word_gender_guessers_flutter_app/widgets/french_word_gender_guesser_widget.dart';
-import 'package:word_gender_guessers_flutter_app/widgets/german_word_gender_guesser_widget.dart';
-import 'package:word_gender_guessers_flutter_app/widgets/language_guesser_widget.dart';
+import 'package:word_gender_guessers_flutter_app/pages/french_word_gender_guesser_widget.dart';
+import 'package:word_gender_guessers_flutter_app/pages/language_guesser_widget.dart';
+import "pages/german_word_gender_guesser_widget.dart";
 
 void main() {
   runApp(const MyApp());
