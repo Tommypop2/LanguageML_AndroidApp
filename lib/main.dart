@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:word_gender_guessers_flutter_app/pages/french_word_gender_guesser_widget.dart';
 import 'package:word_gender_guessers_flutter_app/pages/language_guesser_widget.dart';
+import 'package:word_gender_guessers_flutter_app/pages/settings/ColourSettingsPage.dart';
 import "pages/german_word_gender_guesser_widget.dart";
+import "storage/settings_holder.dart";
 
-void main() {
+void main() async {
+  await SettingsHolder.loadSettings();
   runApp(const MyApp());
 }
 
@@ -16,19 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'CoolApp',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => const MyHomePage(),
+        "/settingspage/colour": (context) => const ColourCustomisationsPage(
+              title: '',
+            ),
+      },
     );
   }
 }
@@ -78,32 +75,75 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: SettingsHolder.appBarBackgroundColour,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(["Languages", "German", "French"][_selectedIndex]),
+        title: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 72,
+                child: Text(
+                  ["Languages", "German", "French"][_selectedIndex],
+                  style: TextStyle(
+                    color: SettingsHolder.appBarAccentColour,
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: () async {
+                  Navigator.pushNamed(context, "/settingspage/colour").then(
+                    (_) {
+                      setState(() {});
+                    },
+                  );
+                },
+                tooltip: "Settings",
+                icon: Icon(
+                  Icons.settings,
+                  color: SettingsHolder.appBarAccentColour,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _widgetOptions,
+      body: Container(
+        color: SettingsHolder.mainBackgroundColour,
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.language),
+            icon: Icon(
+              Icons.language,
+              color: SettingsHolder.navigationAccentColour,
+            ),
             label: "Languages",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.language),
+            icon: Icon(
+              Icons.language,
+              color: SettingsHolder.navigationAccentColour,
+            ),
             label: "German",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.language),
+            icon: Icon(
+              Icons.language,
+              color: SettingsHolder.navigationAccentColour,
+            ),
             label: "French",
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
         onTap: onItemTapped,
+        selectedItemColor: SettingsHolder.buttonColour,
+        backgroundColor: SettingsHolder.navigationBackgroundColour,
       ),
     );
   }

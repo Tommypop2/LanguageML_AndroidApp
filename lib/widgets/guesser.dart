@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import "package:word_gender_guessers_flutter_app/helper_functions.dart";
+import 'package:word_gender_guessers_flutter_app/storage/settings_holder.dart';
 import 'package:word_gender_guessers_flutter_app/widgets/resultsShower.dart';
 
 import '../storage/storagehandler.dart';
@@ -118,16 +119,16 @@ class _GuesserState extends State<Guesser> {
             controller: textController,
             focusNode: textFocusNode,
             onSubmitted: submitText,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: SettingsHolder.inputFieldColour,
             ),
             decoration: InputDecoration(
               hintText: hintText,
               filled: true,
               fillColor: Colors.white,
               border: const OutlineInputBorder(),
-              hintStyle: const TextStyle(
-                color: Colors.black,
+              hintStyle: TextStyle(
+                color: SettingsHolder.inputFieldColour,
               ),
             ),
           ),
