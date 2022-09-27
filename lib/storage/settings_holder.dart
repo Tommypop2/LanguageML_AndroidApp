@@ -5,7 +5,11 @@ import "storagehandler.dart";
 
 Future<List<String>> getList(String lstName) async {
   // print(await getData(lstName));
-  return List<String>.from(jsonDecode(await getData(lstName)));
+  final String data = await getData(lstName);
+  if (data != "") {
+    return List<String>.from(jsonDecode(await getData(lstName)));
+  }
+  return [];
 }
 
 Future<void> setList(String lstName, List<String> lst) async {

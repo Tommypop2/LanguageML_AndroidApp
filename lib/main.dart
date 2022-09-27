@@ -6,6 +6,7 @@ import "pages/german_word_gender_guesser_widget.dart";
 import "storage/settings_holder.dart";
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await SettingsHolder.loadSettings();
   runApp(const MyApp());
 }
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Row(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width - 72,
+                width: MediaQuery.of(context).size.width - 80,
                 child: Text(
                   ["Languages", "German", "French"][_selectedIndex],
                   style: TextStyle(
