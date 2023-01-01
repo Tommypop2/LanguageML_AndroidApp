@@ -8,7 +8,9 @@ import "storage/settings_holder.dart";
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SettingsHolder.loadSettings();
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
